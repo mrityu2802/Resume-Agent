@@ -10,3 +10,21 @@ export interface UploadResponse {
   analysis: ResumeAnalysis;
   error?: string;
 }
+
+export interface Message {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
+export interface ChatRequest {
+  message: string;
+  analysis: ResumeAnalysis;
+}
+
+export interface ChatResponse {
+  response: string;
+}
+
+export interface ErrorResponse {
+  error: string;
+}

@@ -7,7 +7,7 @@ interface Props {
 
 export const AnalysisDisplay = ({ analysis, onReset }: Props) => {
   return (
-    <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+    <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg text-slate-700 h-[750px] overflow-y-auto">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Resume Analysis</h2>
         <button
@@ -39,7 +39,9 @@ export const AnalysisDisplay = ({ analysis, onReset }: Props) => {
         <Section title="Recommendations">
           <ul className="list-disc pl-5 space-y-2">
             {analysis.recommendations.map((rec, index) => (
-              <li key={index} className="text-gray-700">{rec}</li>
+              <li key={index} className="text-gray-700">
+                {rec}
+              </li>
             ))}
           </ul>
         </Section>
@@ -47,7 +49,9 @@ export const AnalysisDisplay = ({ analysis, onReset }: Props) => {
         <Section title="Areas for Improvement">
           <ul className="list-disc pl-5 space-y-2">
             {analysis.improvements.map((imp, index) => (
-              <li key={index} className="text-gray-700">{imp}</li>
+              <li key={index} className="text-gray-700">
+                {imp}
+              </li>
             ))}
           </ul>
         </Section>
@@ -56,7 +60,13 @@ export const AnalysisDisplay = ({ analysis, onReset }: Props) => {
   );
 };
 
-const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
+const Section = ({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) => (
   <div>
     <h3 className="text-xl font-semibold mb-3">{title}</h3>
     {children}
