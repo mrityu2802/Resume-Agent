@@ -7,13 +7,16 @@ export default function Navbar() {
 
   return (
     <header className="flex justify-between items-center p-4">
-      <button className="text-2xl font-bold cursor-pointer" onClick={() => setAnalysis(null)}>
+      <button
+        className="text-2xl font-bold cursor-pointer"
+        onClick={() => setAnalysis(null)}
+      >
         Resume AI
       </button>
       <div className="flex items-center">
         {isFetchingModels ? (
           <Loader2 className="w-4 h-4 animate-spin mr-2" />
-        ) : (
+        ) : models.length ? (
           <select
             className="py-2 px-4 border rounded"
             disabled={isFetchingModels}
@@ -26,6 +29,8 @@ export default function Navbar() {
               </option>
             ))}
           </select>
+        ) : (
+          <span className="py-2 px-4 border rounded">gemma2-9b-it</span>
         )}
       </div>
     </header>
