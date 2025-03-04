@@ -61,10 +61,10 @@ export default function Home() {
   }
 
   return (
-    <main className="flex-1 h-full bg-gray-50 pt-10">
+    <main className="flex-1 h-full bg-gray-50 py-10">
       <div className="container mx-auto px-4">
         {!analysis ? (
-          <div className="max-w-xl mx-auto">
+          <div className="max-w-full mx-auto">
             <UploadBox onUploadSuccess={handleUploadSuccess} />
           </div>
         ) : (
