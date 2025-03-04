@@ -10,6 +10,9 @@ export const config = {
   ],
 };
 
+export const TEMPERATURE = 0.6;
+export const MAX_TOKENS = 1024;
+
 export const models = [
   "gemma2-9b-it",
   "llama-3.3-70b-versatile",

@@ -1,5 +1,5 @@
 import Groq from "groq-sdk";
-
+import { TEMPERATURE, MAX_TOKENS } from "../config";
 export class GroqService {
   private groq: Groq;
   private temperature: number;
@@ -9,8 +9,8 @@ export class GroqService {
     this.groq = new Groq({
       apiKey: process.env.GROQ_API_KEY,
     });
-    this.temperature = parseFloat(process.env.TEMPERATURE || "0.6");
-    this.maxTokens = parseInt(process.env.MAX_TOKENS || "1024");
+    this.temperature = TEMPERATURE;
+    this.maxTokens = MAX_TOKENS;
   }
 
   async analyzeResume(resumeText: string, model: string) {
