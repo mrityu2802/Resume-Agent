@@ -12,7 +12,7 @@ export const AnalysisDisplay = ({ analysis, onReset }: Props) => {
         <h2 className="text-2xl font-bold">Resume Analysis</h2>
         <button
           onClick={onReset}
-          className="px-4 py-2 text-sm bg-gray-100 rounded hover:bg-gray-200"
+          className="px-4 py-2 text-sm bg-gray-100 rounded hover:bg-gray-200 cursor-pointer"
         >
           Upload Another Resume
         </button>
@@ -21,7 +21,7 @@ export const AnalysisDisplay = ({ analysis, onReset }: Props) => {
       <div className="grid gap-6">
         <Section title="Key Skills">
           <div className="flex flex-wrap gap-2">
-            {analysis.skills.map((skill, index) => (
+            {analysis.skills?.map((skill, index) => (
               <span
                 key={index}
                 className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
@@ -38,7 +38,7 @@ export const AnalysisDisplay = ({ analysis, onReset }: Props) => {
 
         <Section title="Recommendations">
           <ul className="list-disc pl-5 space-y-2">
-            {analysis.recommendations.map((rec, index) => (
+            {analysis.recommendations?.map((rec, index) => (
               <li key={index} className="text-gray-700">
                 {rec}
               </li>
@@ -48,7 +48,7 @@ export const AnalysisDisplay = ({ analysis, onReset }: Props) => {
 
         <Section title="Areas for Improvement">
           <ul className="list-disc pl-5 space-y-2">
-            {analysis.improvements.map((imp, index) => (
+            {analysis.improvements?.map((imp, index) => (
               <li key={index} className="text-gray-700">
                 {imp}
               </li>

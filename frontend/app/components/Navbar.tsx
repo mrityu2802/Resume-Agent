@@ -2,11 +2,14 @@
 import { useModelContext } from "../hooks/useModelContext";
 import { Loader2 } from "lucide-react";
 export default function Navbar() {
-  const { setModel, models, isFetchingModels, model } = useModelContext();
+  const { setModel, models, isFetchingModels, model, setAnalysis } =
+    useModelContext();
 
   return (
-    <header  className="flex justify-between items-center p-4">
-      <h1 className="text-2xl font-bold">Resume AI</h1>
+    <header className="flex justify-between items-center p-4">
+      <button className="text-2xl font-bold cursor-pointer" onClick={() => setAnalysis(null)}>
+        Resume AI
+      </button>
       <div className="flex items-center">
         {isFetchingModels ? (
           <Loader2 className="w-4 h-4 animate-spin mr-2" />

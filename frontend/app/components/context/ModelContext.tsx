@@ -1,5 +1,7 @@
 "use client";
 
+import { ResumeAnalysis } from "@/app/types/resume";
+import { Message } from "@/app/types/resume";
 import { getModels } from "@/app/utils/api";
 import { createContext, useEffect, useState } from "react";
 type ModelContextType = {
@@ -7,6 +9,12 @@ type ModelContextType = {
   setModel: (model: string) => void;
   models: string[];
   isFetchingModels: boolean;
+  analysis: ResumeAnalysis | null;
+  setAnalysis: (analysis: ResumeAnalysis | null) => void;
+  messages: Message[];
+  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+  isLoading: boolean;
+  setIsLoading: (isLoading: boolean) => void;
 };
 
 export const ModelContext = createContext<ModelContextType | null>(null);
@@ -16,6 +24,9 @@ export default function ModelContextProvider({
 }: {
   children: React.ReactNode;
 }) {
+  const [analysis, setAnalysis] = useState<ResumeAnalysis | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [model, setModel] = useState<string>("gemma2-9b-it");
   const [models, setModels] = useState<string[]>([]);
   const [isFetchingModels, setIsFetchingModels] = useState(true);
@@ -37,7 +48,18 @@ export default function ModelContextProvider({
 
   return (
     <ModelContext.Provider
-      value={{ model, setModel, models, isFetchingModels }}
+      value={{
+        model,
+        setModel,
+        models,
+        isFetchingModels,
+        analysis,
+        setAnalysis,
+        messages,
+        setMessages,
+        isLoading,
+        setIsLoading,
+      }}
     >
       {children}
     </ModelContext.Provider>

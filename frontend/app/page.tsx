@@ -1,18 +1,23 @@
 "use client";
-import { useState } from "react";
 import { UploadBox } from "./components/UploadBox";
 import { AnalysisDisplay } from "./components/AnalysisDisplay";
 import { ChatInterface } from "./components/ChatInterface";
-import { ResumeAnalysis, UploadResponse, Message } from "./types/resume";
+import { UploadResponse } from "./types/resume";
 import { chat } from "./utils/api";
 import { useModelContext } from "./hooks/useModelContext";
 import { Loader2 } from "lucide-react";
 
 export default function Home() {
-  const [analysis, setAnalysis] = useState<ResumeAnalysis | null>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const { model, isFetchingModels } = useModelContext();
+  const {
+    model,
+    isFetchingModels,
+    analysis,
+    setAnalysis,
+    messages,
+    setMessages,
+    isLoading,
+    setIsLoading,
+  } = useModelContext();
 
   const handleUploadSuccess = (response: UploadResponse) => {
     setAnalysis(response.analysis);
