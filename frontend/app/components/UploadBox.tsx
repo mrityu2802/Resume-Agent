@@ -2,12 +2,13 @@
 import { useState } from "react";
 import { UploadResponse } from "../types/resume";
 import { uploadResume } from "../utils/api";
-
+import { useModelContext } from "../hooks/useModelContext";
 interface Props {
   onUploadSuccess: (analysis: UploadResponse) => void;
 }
 
 export const UploadBox = ({ onUploadSuccess }: Props) => {
+  const { model } = useModelContext();
   const [isDragging, setIsDragging] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -43,7 +44,7 @@ export const UploadBox = ({ onUploadSuccess }: Props) => {
     setError(null);
 
     try {
-      const response = await uploadResume(file);
+      const response = await uploadResume(file, model);
       console.log(response);
       if (response.success) {
         onUploadSuccess(response);

@@ -33,8 +33,12 @@ export function ChatInterface({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow p-4 flex flex-col h-[750px] text-slate-700">
-      <h2 className="text-xl font-semibold mb-4">Chat with AI Assistant</h2>
+    <div className="bg-white rounded-lg shadow p-4 flex flex-col h-[800px] text-slate-700">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold truncate">
+          Chat with AI Assistant
+        </h2>
+      </div>
 
       <div className="flex-1 overflow-y-auto mb-4 space-y-4">
         {messages.map((message, index) => (
@@ -58,7 +62,7 @@ export function ChatInterface({
           </div>
         ))}
         {isLoading && (
-          <div className="bg-gray-100 rounded-lg p-3 mr-auto max-w-[80%]">
+          <div className="bg-gray-100 rounded-lg p-3 mr-auto max-w-[80%] animate-pulse">
             Thinking...
           </div>
         )}

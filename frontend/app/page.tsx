@@ -5,15 +5,17 @@ import { AnalysisDisplay } from "./components/AnalysisDisplay";
 import { ChatInterface } from "./components/ChatInterface";
 import { ResumeAnalysis, UploadResponse, Message } from "./types/resume";
 import { chat } from "./utils/api";
+import { useModelContext } from "./hooks/useModelContext";
+import { Loader2 } from "lucide-react";
 
 export default function Home() {
   const [analysis, setAnalysis] = useState<ResumeAnalysis | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { model, isFetchingModels } = useModelContext();
 
   const handleUploadSuccess = (response: UploadResponse) => {
     setAnalysis(response.analysis);
-    // Initialize chat with AI welcome message
     setMessages([
       {
         role: "assistant",
@@ -26,12 +28,10 @@ export default function Home() {
   const handleSendMessage = async (message: string) => {
     try {
       setIsLoading(true);
-      // Add user message to chat
+
       setMessages((prev) => [...prev, { role: "user", content: message }]);
 
-      // Send message to API
-      const data = await chat(message, analysis);
-      // Add AI response to chat
+      const data = await chat(message, analysis, model);
       setMessages((prev) => [
         ...prev,
         { role: "assistant", content: data.response },
@@ -47,20 +47,23 @@ export default function Home() {
     setAnalysis(null);
     setMessages([]);
   };
+  if (isFetchingModels) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Loader2 className="w-10 h-10 animate-spin" />
+      </div>
+    );
+  }
 
   return (
-    <main className="min-h-screen bg-gray-50 py-12">
+    <main className="flex-1 h-full bg-gray-50 pt-10">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl text-black font-bold text-center mb-8">
-          Resume Review Agent
-        </h1>
-
         {!analysis ? (
           <div className="max-w-xl mx-auto">
             <UploadBox onUploadSuccess={handleUploadSuccess} />
           </div>
         ) : (
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 h-full overflow-hidden">
+          <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 h-full">
             <AnalysisDisplay analysis={analysis} onReset={handleReset} />
             <ChatInterface
               messages={messages}
