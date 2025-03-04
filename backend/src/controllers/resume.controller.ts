@@ -31,20 +31,19 @@ export class ResumeController {
       if (!req.file) {
         return res.status(400).json({ error: "No file uploaded" });
       }
+      const model = req.body.model;
 
       const resumeText = await this.parserService.parseResume(req.file);
-      const analysis = await this.groqService.analyzeResume(resumeText);
+      const analysis = await this.groqService.analyzeResume(resumeText, model);
 
       res.json({ success: true, analysis });
     } catch (error) {
       console.error("Error processing resume:", error);
-      res
-        .status(500)
-        .json({
-          success: false,
-          analysis: null,
-          error: "Failed to process resume",
-        });
+      res.status(500).json({
+        success: false,
+        analysis: null,
+        error: "Failed to process resume",
+      });
     }
   };
 }

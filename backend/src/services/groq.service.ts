@@ -2,15 +2,20 @@ import Groq from "groq-sdk";
 
 export class GroqService {
   private groq: Groq;
+  private temperature: number;
+  private maxTokens: number;
 
   constructor() {
     this.groq = new Groq({
       apiKey: process.env.GROQ_API_KEY,
     });
+    this.temperature = parseFloat(process.env.TEMPERATURE || "0.6");
+    this.maxTokens = parseInt(process.env.MAX_TOKENS || "1024");
   }
 
-  async analyzeResume(resumeText: string) {
-    const prompt = `
+  async analyzeResume(resumeText: string, model: string) {
+    try {
+      const prompt = `
       As an expert resume reviewer and career coach, analyze the following resume and provide:
       1. A list of key skills identified
       2. A brief summary of their experience
@@ -29,16 +34,29 @@ export class GroqService {
       ${resumeText}
     `;
 
-    const completion = await this.groq.chat.completions.create({
-      messages: [{ role: "user", content: prompt }],
-      model: "mixtral-8x7b-32768",
-    });
+      const completion = await this.groq.chat.completions.create({
+        messages: [{ role: "user", content: prompt }],
+        model: model,
+        temperature: this.temperature,
+        max_tokens: this.maxTokens,
+      });
+      const response = completion.choices[0].message.content;
 
-    return JSON.parse(completion.choices[0].message.content as string);
+      return JSON.parse(
+        response?.replace(/^```json\n/, "").replace(/\n```$/, "") || "{}"
+      );
+    } catch (error) {
+      console.error("Error parsing JSON:", error);
+      return {
+        skills: [],
+        experience: "",
+      };
+    }
   }
 
-  async chat(message: string, analysis: any) {
-    const systemPrompt = `You are an expert career advisor and resume reviewer.
+  async chat(message: string, analysis: any, model: string) {
+    try {
+      const systemPrompt = `You are an expert career advisor and resume reviewer.
         ### **Current Resume Context**
         - **Skills:** ${analysis.skills.join(", ")}
         - **Experience Summary:** ${analysis.experience}
@@ -55,7 +73,9 @@ export class GroqService {
         - **If the user asks a specific question (e.g., "What is my name?"), answer only with the direct response** without additional details.
         - **If the question is about resume improvement or career advice, use the provided resume context.**
         - **Do not add extra sections or formatting when responding to simple direct queries.**
-        - Use **markdown formatting** when necessary for clarity.
+        - **If the user asks a question about their resume, use the provided resume context.**
+        - **add proper spacing and line breaks in the response.**
+        - **Use **markdown formatting** when necessary for clarity and bullet points.**
 
         ### **Examples of Expected Behavior:**
         **User:** "What is my name?"  
@@ -69,16 +89,20 @@ export class GroqService {
 
         `;
 
-    const completion = await this.groq.chat.completions.create({
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: message },
-      ],
-      model: "mixtral-8x7b-32768",
-      temperature: 0.5,
-      max_tokens: 1024,
-    });
+      const completion = await this.groq.chat.completions.create({
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: message },
+        ],
+        model: model,
+        temperature: this.temperature,
+        max_tokens: this.maxTokens,
+      });
 
-    return completion.choices[0].message.content;
+      return completion.choices[0].message.content;
+    } catch (error) {
+      console.error("Error in chat:", error);
+      return "An error occurred while processing your request.";
+    }
   }
 }
