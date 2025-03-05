@@ -3,6 +3,7 @@ import { useState } from "react";
 import { UploadResponse } from "../types/resume";
 import { uploadResume } from "../utils/api";
 import { useModelContext } from "../hooks/useModelContext";
+import { toast } from "react-hot-toast";
 interface Props {
   onUploadSuccess: (analysis: UploadResponse) => void;
 }
@@ -46,6 +47,7 @@ export const UploadBox = ({ onUploadSuccess }: Props) => {
     if (file.size > MAX_FILE_SIZE) {
       setError("File size exceeds 2MB limit");
       setIsLoading(false);
+      toast.error("File size exceeds 2MB limit");
       return;
     }
 
@@ -54,12 +56,15 @@ export const UploadBox = ({ onUploadSuccess }: Props) => {
       console.log(response);
       if (response.success) {
         onUploadSuccess(response);
+        toast.success("Resume uploaded successfully");
       } else {
         setError(response.error || "Upload failed");
+        toast.error(response.error || "Upload failed");
       }
     } catch (err) {
       console.log(err);
       setError("Failed to upload file");
+      toast.error("Failed to upload file");
     } finally {
       setIsLoading(false);
     }
@@ -67,7 +72,6 @@ export const UploadBox = ({ onUploadSuccess }: Props) => {
 
   return (
     <div className="space-y-8">
-  
       <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 shadow-sm">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">
           Resume Analysis Assistant
@@ -92,7 +96,7 @@ export const UploadBox = ({ onUploadSuccess }: Props) => {
             </div>
             <div>
               <h3 className="font-medium text-gray-800">Instant Analysis</h3>
-              <p className="text-sm text-gray-600"> 
+              <p className="text-sm text-gray-600">
                 Get detailed insights about your resume in seconds
               </p>
             </div>
@@ -148,7 +152,6 @@ export const UploadBox = ({ onUploadSuccess }: Props) => {
         </div>
       </div>
 
-     
       <div
         className={`
           p-8 border-2 border-dashed rounded-lg text-center max-w-xl mx-auto

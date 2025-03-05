@@ -4,6 +4,7 @@ import "./globals.css";
 import ModelContextProvider from "./components/context/ModelContext";
 import Navbar from "./components/Navbar";
 import { Footer } from "./components/Footer";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ModelContextProvider>
+          <Toaster />
           <div className="h-screen flex flex-col">
             <Navbar />
             <div className="flex-1">{children}</div>
