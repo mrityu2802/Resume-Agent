@@ -79,13 +79,13 @@ export class GroqService {
 
         ### **Examples of Expected Behavior:**
         **User:** "What is my name?"  
-        **Response:** "name will be here" (No extra details)
+        **Response:** name will be here (No extra details)
 
         **User:** "How can I improve my resume?"  
-        **Response:** "advice will be here" (full advice based on context)
+        **Response:** advice will be here (full advice based on context)
 
         **User:** "What are my top skills?"  
-        **Response:** "skills will be here"  (No extra details)
+        **Response:** skills will be here (No extra details)
 
         `;
 
