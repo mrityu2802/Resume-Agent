@@ -35,7 +35,7 @@ cd backend
 ```bash
 npm install
 ```
-- Create a .env file and configure your API keys (Groq API).
+- Create a .env file and configure your API keys (GROQ_API_KEY, ALLOWED_ORIGINS, PORT).
 - Start the backend server:
 ```bash
 npm start
