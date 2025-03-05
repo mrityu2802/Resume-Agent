@@ -30,7 +30,7 @@ export default function Navbar() {
             ))}
           </select>
         ) : (
-          <span className="py-2 px-4 border rounded">gemma2-9b-it</span>
+          <span className="py-1.5 px-4 w-[215px] border rounded">{model}</span>
         )}
       </div>
     </header>
