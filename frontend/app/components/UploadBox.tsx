@@ -121,7 +121,7 @@ export const UploadBox = ({ onUploadSuccess }: Props) => {
             <div>
               <h3 className="font-medium text-gray-800">Secure Upload</h3>
               <p className="text-sm text-gray-600">
-                Your data is encrypted and never stored
+                Your data is secured and never stored
               </p>
             </div>
           </div>
