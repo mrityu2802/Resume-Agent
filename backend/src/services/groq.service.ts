@@ -47,10 +47,7 @@ export class GroqService {
       );
     } catch (error) {
       console.error("Error parsing JSON:", error);
-      return {
-        skills: [],
-        experience: "",
-      };
+      return null;
     }
   }
 
